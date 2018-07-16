@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Input from './input';
+import Content from 'content';
 
 const INITIAL_STATE = {
     color: '',
@@ -66,15 +67,21 @@ class Card extends Component {
       {title: 'Adjective', state: this.state.adjectiveFive, name: 'adjectiveFive'},
       ]
     
-    return (
-      <div className="card">
-        {
-            inputData.map(data => Input( (data), this.handleInputChange))
-        }
-  
-      </div>
+     return (
+            <form onSubmit={this.handleFormSubmit} className="card">
+                <div className="card__inputs">
+                {
+                    inputData.map((data, index) => {
+                        return Input( (data), this.handleInputChange, index) 
+                    })
+                }
+                <Content data ={this.state}/>
+                
+                </div>
+                
+                 </form>
       )
-  }
+    }
 }
 
 export default Card;
