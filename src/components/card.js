@@ -24,23 +24,29 @@ const INITIAL_STATE = {
 }
 
 class Card extends Component {
-  
-  constructor() {
-    super()
-    
-    this.state = {
-      color: '',
-      pluralNoun: '',
-      adjective:'',
-      nameOne:''
+
+    constructor() {
+        super()
+
+        this.state = INITIAL_STATE;
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    } 
+
+    handleInputChange(event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
-    
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-  
-  handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
-  }
+
+    handleFormSubmit(event) {
+        event.preventDefault()
+
+        if(this.state.contentVisible) {
+            this.setState(INITIAL_STATE)
+        } else {
+            this.setState({ contentVisible: true })
+        }
+    }
   
   render() {
     
@@ -65,7 +71,7 @@ class Card extends Component {
       {title: 'Noun', state: this.state.nounThree, name: 'nounThree'},
       {title: 'Name', state: this.state.nameFour, name: 'nameFour'},
       {title: 'Adjective', state: this.state.adjectiveFive, name: 'adjectiveFive'},
-      ]
+    ]
     
      return (
             <form onSubmit={this.handleFormSubmit} className="card">
@@ -75,12 +81,13 @@ class Card extends Component {
                         return Input( (data), this.handleInputChange, index) 
                     })
                 }
-                <Content data ={this.state}/>
-                
                 </div>
-                
-                 </form>
-      )
+                <button className={`card__${!this.state.contentVisible ? 'generate' : 'clear'}`} type="submit">{!this.state.contentVisible ? 'Generate Mad Lib' : 'Clear Form'}</button>
+                {
+                    this.state.contentVisible ? <Content data={this.state}/> : ''
+                }
+            </form>
+        )
     }
 }
 
